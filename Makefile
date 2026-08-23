@@ -1,4 +1,4 @@
-HOST := noir
+HOST ?= $(shell hostname)
 FLAKE := $(CURDIR)
 
 .PHONY: switch build fmt update check
