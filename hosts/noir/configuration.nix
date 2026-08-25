@@ -20,6 +20,7 @@
     desktop.enable = true;
     audio.enable = true;
     services.enable = true;
+    gaming.enable = true;
     home.enable = true;
   };
 }
