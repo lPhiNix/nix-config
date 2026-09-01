@@ -20,6 +20,7 @@
       imports = [
         ./packages.nix
         ./desktop.nix
+        ./gaming.nix
         ./programs
       ];
     };
