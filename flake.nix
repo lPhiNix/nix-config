@@ -38,6 +38,7 @@
           ./modules/desktop.nix
           ./modules/audio.nix
           ./modules/services.nix
+          ./modules/graphics.nix
           ./modules/gaming.nix
 
           home-manager.nixosModules.home-manager

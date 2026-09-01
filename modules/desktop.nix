@@ -3,7 +3,7 @@
   lib,
   ...
 }: {
-  options.modules.desktop.enable = lib.mkEnableOption "escritorio Hyprland";
+  options.modules.desktop.enable = lib.mkEnableOption "Hyprland desktop";
 
   config = lib.mkIf config.modules.desktop.enable {
     programs.hyprland.enable = true;

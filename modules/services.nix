@@ -3,7 +3,7 @@
   lib,
   ...
 }: {
-  options.modules.services.enable = lib.mkEnableOption "servicios de red (SSH)";
+  options.modules.services.enable = lib.mkEnableOption "Network services (SSH)";
 
   config = lib.mkIf config.modules.services.enable {
     services.openssh = {

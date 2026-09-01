@@ -3,7 +3,7 @@
   lib,
   ...
 }: {
-  options.modules.audio.enable = lib.mkEnableOption "audio PipeWire";
+  options.modules.audio.enable = lib.mkEnableOption "Audio PipeWire";
 
   config = lib.mkIf config.modules.audio.enable {
     services.pipewire = {

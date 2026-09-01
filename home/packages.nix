@@ -27,5 +27,8 @@
     jq
     curl
     figlet
+
+    mesa-demos
+    vulkan-tools
   ];
 }

@@ -22,5 +22,13 @@
     services.enable = true;
     gaming.enable = true;
     home.enable = true;
+    
+    graphics = {
+      provider = "nvidia";
+      nvidia = {
+        busId = "PCI:1:0:0";
+        iGpuBusId = "PCI:0:2:0";
+      };
+    };
   };
 }
