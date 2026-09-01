@@ -20,5 +20,12 @@
     trash-cli
     gnome-keyring
     gnumake
+    bat
+    ripgrep
+    fd
+    fzf
+    jq
+    curl
+    figlet
   ];
 }
