@@ -30,6 +30,8 @@
 
   networking.networkmanager.enable = true;
 
+  hardware.enableRedistributableFirmware = true;
+
   services.udev.packages = [pkgs.yubikey-personalization];
 
   time.timeZone = lib.mkDefault "Europe/Madrid";
