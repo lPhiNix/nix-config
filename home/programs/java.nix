@@ -1,4 +1,4 @@
-{ pkgs, ... }: {
+{pkgs, ...}: {
   home.packages = [
     pkgs.jdk17
     (pkgs.writeShellScriptBin "java8" "exec ${pkgs.jdk8}/bin/java \"$@\"")

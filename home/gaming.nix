@@ -5,7 +5,7 @@
   nixosConfig,
   ...
 }: {
-  home.packages = lib.mkIf nixosConfig.modules.gaming.enable (with pkgs; [
-    
-  ]);
+  home.packages =
+    lib.mkIf nixosConfig.modules.gaming.enable (with pkgs; [
+      ]);
 }
