@@ -12,7 +12,14 @@
     starship # Shell prompt
     fastfetch # System fetch
 
-    figlet # Cli ASCII text generator
-    cava # Cli audio visualizer
+    figlet # ASCII text generator
+    cava # Audio visualizer
+
+    cmatrix # Matrix digital rain
+    tty-clock # Terminal clock
+    cbonsai # Growing bonsai tree
+    pipes # Pipes terminal screensaver
+    sl # Steam locomotive runs on 'sl'
+    hollywood # Fake 'hacker' console activity
   ];
 }
