@@ -13,6 +13,8 @@
     fd # Modern find wrapper
     ripgrep # Modern grep wrapper
 
+    yazi # Cli file manager
+
     fzf # Cli fuzzy finder
 
     btop # Cli system monitor
