@@ -22,7 +22,7 @@
     services.enable = true;
     gaming.enable = true;
     home.enable = true;
-    
+
     graphics = {
       provider = "nvidia";
       nvidia = {

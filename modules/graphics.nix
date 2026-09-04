@@ -1,10 +1,14 @@
-{ config, lib, pkgs, ... }:
-let
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}: let
   cfg = config.modules.graphics;
 in {
   options.modules.graphics = {
     provider = lib.mkOption {
-      type = lib.types.nullOr (lib.types.enum [ "intel" "amd" "nvidia" ]);
+      type = lib.types.nullOr (lib.types.enum ["intel" "amd" "nvidia"]);
       default = null;
       description = "Primary system GPU: intel, amd or nvidia (null = disabled).";
     };
@@ -32,15 +36,15 @@ in {
     })
 
     (lib.mkIf (cfg.provider == "intel") {
-      hardware.graphics.extraPackages = [ pkgs.intel-media-driver ];
+      hardware.graphics.extraPackages = [pkgs.intel-media-driver];
     })
 
     (lib.mkIf (cfg.provider == "amd") {
-      hardware.graphics.extraPackages = [ pkgs.amdvlk ];
+      hardware.graphics.extraPackages = [pkgs.amdvlk];
     })
 
     (lib.mkIf (cfg.provider == "nvidia") {
-      services.xserver.videoDrivers = lib.mkDefault [ "nvidia" ];
+      services.xserver.videoDrivers = lib.mkDefault ["nvidia"];
       hardware.nvidia = {
         open = true;
         modesetting.enable = true;
