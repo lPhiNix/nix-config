@@ -1,18 +1,31 @@
+#  _   _ _        ____            _    _
+# | \ | (_)_  __ |  _ \  ___  ___| | _| |_ ___  _ __
+# |  \| | \ \/ / | | | |/ _ \/ __| |/ / __/ _ \| '_ \
+# | |\  | |>  <  | |_| |  __/\__ \   <| || (_) | |_) |
+# |_| \_|_/_/\_\ |____/ \___||___/_|\_\\__\___/| .__/
+#                                              |_|
+# ----------------------------------------------------
+# Nix desktop module by lPhiNix
+#
 {
   config,
   lib,
   ...
 }: {
-  options.modules.desktop.enable = lib.mkEnableOption "Hyprland desktop";
+  options.modules.desktop.enable = lib.mkEnableOption "Desktop (Hyprland)";
 
   config = lib.mkIf config.modules.desktop.enable {
+    # Hyprland Wayland compositor.
     programs.hyprland.enable = true;
 
+    # Power daemons: battery reporting and CPU profiles.
     services.upower.enable = true;
     services.power-profiles-daemon.enable = true;
 
+    # Bluetooth support for devices and audio.
     hardware.bluetooth.enable = true;
 
+    # Desktop services: geolocation, virtual filesystems, removable media.
     services.geoclue2.enable = true;
     services.gvfs.enable = true;
     services.udisks2.enable = true;

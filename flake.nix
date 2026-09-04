@@ -1,15 +1,28 @@
+#     ________      __                _
+#    / ____/ /___ _/ /_____    ____  (_)  __
+#   / /_  / / __ `/ //_/ _ \  / __ \/ / |/_/
+#  / __/ / / /_/ / ,< /  __/ / / / / />  <
+# /_/   /_/\__,_/_/|_|\___(_)_/ /_/_/_/|_|
+# ------------------------------------------
+# Nix flake configuration by lPhiNix
+#
 {
+  # Flake name, shown in `nix flake metadata`.
   description = "PhiNix Nix Configuration";
 
   inputs = {
+    # Stable nixpkgs channel: basis of the system.
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
+    # Unstable nixpkgs, exposed to packages via an overlay.
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
 
+    # Home-manager, pinned to the same nixpkgs.
     home-manager = {
       url = "github:nix-community/home-manager/release-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # Desktop control CLI (dotfiles tool) from an external flake.
     caelestia-cli = {
       url = "github:caelestia-dots/cli";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -22,8 +35,10 @@
     home-manager,
     ...
   } @ inputs: let
+    # Architecture targeted by this configuration.
     system = "x86_64-linux";
 
+    # Build a host: its own file plus the shared system modules.
     mkHost = {
       path,
       system ? "x86_64-linux",
@@ -32,26 +47,33 @@
         inherit system;
         specialArgs = {inherit inputs;};
         modules = [
+          # Host-specific configuration file.
           path
 
+          # Shared system modules.
           ./modules/core.nix
           ./modules/desktop.nix
           ./modules/audio.nix
-          ./modules/services.nix
+          ./modules/network.nix
           ./modules/graphics.nix
           ./modules/gaming.nix
 
+          # Home-manager integration and the home configuration.
           home-manager.nixosModules.home-manager
           ./home
         ];
       };
   in {
+    # Formatter used by `nix fmt` (Alejandra).
     formatter.${system} = nixpkgs.legacyPackages.${system}.alejandra;
 
+    # Custom packages from ./pkgs, runnable via `nix run .#name`.
     packages.${system} = import ./pkgs nixpkgs.legacyPackages.${system};
 
+    # Overlays consumed by modules/core.nix.
     overlays = import ./overlays {inherit inputs;};
 
+    # Real machines built from this flake.
     nixosConfigurations = {
       noir = mkHost {path = ./hosts/noir/configuration.nix;};
     };

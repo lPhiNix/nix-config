@@ -1,3 +1,12 @@
+#  _   _ _         ____                 _     _
+# | \ | (_)_  __  / ___|_ __ __ _ _ __ | |__ (_) ___ ___
+# |  \| | \ \/ / | |  _| '__/ _` | '_ \| '_ \| |/ __/ __|
+# | |\  | |>  <  | |_| | | | (_| | |_) | | | | | (__\__ \
+# |_| \_|_/_/\_\  \____|_|  \__,_| .__/|_| |_|_|\___|___/
+#                                |_|
+# -------------------------------------------------------
+# Nix graphics module by lPhiNix
+#
 {
   config,
   lib,
@@ -28,6 +37,7 @@ in {
   };
 
   config = lib.mkMerge [
+    # Base GPU acceleration, enabled for any provider.
     (lib.mkIf (cfg.provider != null) {
       hardware.graphics = {
         enable = true;
@@ -35,17 +45,21 @@ in {
       };
     })
 
+    # Intel iGPU: use the media driver for VA-API.
     (lib.mkIf (cfg.provider == "intel") {
       hardware.graphics.extraPackages = [pkgs.intel-media-driver];
     })
 
+    # AMD GPU: use the AMDVLK Vulkan driver.
     (lib.mkIf (cfg.provider == "amd") {
       hardware.graphics.extraPackages = [pkgs.amdvlk];
     })
 
+    # NVIDIA: open kernel module, modesetting and settings app.
     (lib.mkIf (cfg.provider == "nvidia") {
       services.xserver.videoDrivers = lib.mkDefault ["nvidia"];
       hardware.nvidia = {
+        # Use the open-source kernel module.
         open = true;
         modesetting.enable = true;
         nvidiaSettings = true;
@@ -53,6 +67,7 @@ in {
           enable = true;
           finegrained = true;
         };
+        # PRIME offload: render on NVIDIA, display via the Intel iGPU.
         prime = {
           offload.enable = true;
           offload.enableOffloadCmd = true;
@@ -62,6 +77,7 @@ in {
       };
     })
 
+    # Fail early if NVIDIA is selected without its bus IDs.
     {
       assertions = [
         {

@@ -1,3 +1,11 @@
+#  _   _ _         ____
+# | \ | (_)_  __  / ___|___  _ __ ___
+# |  \| | \ \/ / | |   / _ \| '__/ _ \
+# | |\  | |>  <  | |__| (_) | | |  __/
+# |_| \_|_/_/\_\  \____\___/|_|  \___|
+# ------------------------------------
+# Nix core module by lPhiNix
+#
 {
   config,
   lib,
@@ -5,8 +13,10 @@
   inputs,
   ...
 }: {
+  # Nixpkgs options: allow unfree software and apply our custom overlays.
   nixpkgs = {
     config = {
+      # Allow proprietary software (e.g. Steam, browsers).
       allowUnfree = true;
     };
     overlays = [
@@ -16,27 +26,38 @@
     ];
   };
 
+  # Nix daemon/client settings: flakes enabled, store auto-optimised.
   nix = {
     settings = {
+      # Enable the experimental flakes and nix-command features.
       experimental-features = "nix-command flakes";
+      # Disable the flake registry; require full URLs.
       flake-registry = "";
+      # Automatically deduplicate identical store paths.
       auto-optimise-store = true;
     };
+    # No channels; the flake is the single source of truth.
     channel.enable = false;
   };
 
+  # Boot via systemd-boot and let nixos-rebuild manage EFI vars.
   boot.loader.systemd-boot.enable = lib.mkDefault true;
   boot.loader.efi.canTouchEfiVariables = lib.mkDefault true;
 
+  # Manage networking via NetworkManager.
   networking.networkmanager.enable = true;
 
+  # Allow non-redistributable firmware blobs.
   hardware.enableRedistributableFirmware = true;
 
+  # udev rules for YubiKey devices.
   services.udev.packages = [pkgs.yubikey-personalization];
 
+  # Default timezone, locales and console layout.
   time.timeZone = lib.mkDefault "Europe/Madrid";
   i18n.supportedLocales = ["en_US.UTF-8/UTF-8" "es_ES.UTF-8/UTF-8"];
   console.keyMap = "es";
 
+  # Initial NixOS release; keep untouched once set.
   system.stateVersion = "26.05";
 }
