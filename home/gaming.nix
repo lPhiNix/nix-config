@@ -13,7 +13,23 @@
   nixosConfig,
   ...
 }: {
-  home.packages =
-    lib.mkIf nixosConfig.modules.gaming.enable (with pkgs; [
-      ]);
+  config = lib.mkIf nixosConfig.modules.gaming.enable {
+    home.packages = with pkgs; [
+      (writeShellScriptBin "osu" ''
+        unset LD_LIBRARY_PATH
+        export XDG_DATA_HOME="$HOME/.games/osu/data"
+        mkdir -p "$XDG_DATA_HOME"
+        exec ${osu-lazer-bin}/bin/osu! "$@"
+      '')
+    ];
+    xdg.desktopEntries."osu" = {
+      name = "osu!";
+      comment = "Rhythm is just a *click* away";
+      exec = "${config.home.profileDirectory}/bin/osu";
+      icon = "${pkgs.osu-lazer-bin}/share/icons/hicolor/512x512/apps/osu.png";
+      terminal = false;
+      categories = ["Game"];
+      settings.StartupWMClass = "osu!";
+    };
+  };
 }
