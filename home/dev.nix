@@ -12,6 +12,5 @@
     opencode # Cli local/remote AI coding client
 
     direnv # Environments vars loader
-    gnumake # Build automation 'make' tool
   ];
 }

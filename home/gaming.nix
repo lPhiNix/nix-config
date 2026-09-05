@@ -15,6 +15,7 @@
 }: {
   config = lib.mkIf nixosConfig.modules.gaming.enable {
     home.packages = with pkgs; [
+      # osu! launcher: isolate game data in ~/.games and clear LD_LIBRARY_PATH to avoid clashes.
       (writeShellScriptBin "osu" ''
         unset LD_LIBRARY_PATH
         export XDG_DATA_HOME="$HOME/.games/osu/data"
@@ -22,6 +23,7 @@
         exec ${osu-lazer-bin}/bin/osu! "$@"
       '')
     ];
+    # Desktop entry so the launcher shows up in the app menu.
     xdg.desktopEntries."osu" = {
       name = "osu!";
       comment = "Rhythm is just a *click* away";

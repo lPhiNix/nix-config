@@ -18,7 +18,8 @@
     # Use the system nixpkgs instead of letting home-manager build its own.
     home-manager.useGlobalPkgs = true;
 
-    # Inject the flake inputs and NixOS config into every home module.
+    # Inject the flake inputs and the NixOS config into every home module.
+    # nixosConfig lets each module gate packages on the host's modules.*.enable.
     home-manager.extraSpecialArgs = {
       inherit inputs;
       nixosConfig = config;
